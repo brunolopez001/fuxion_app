@@ -8,7 +8,7 @@ interface ProductsProps {
 }
 
 export const Products: React.FC<ProductsProps> = ({ onNavigate }) => {
-  const handleProductSelect = (product: Product) => {
+  const handleProductSelect = () => {
     // In a real app, add to cart or go to detail
     // For now, redirect to booking/contact
     onNavigate(Page.BOOKING);
