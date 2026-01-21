@@ -4,7 +4,12 @@ import { sendMessageToGemini } from '../services/geminiService';
 import { Message } from '../types';
 import { VoiceAgent } from './VoiceAgent';
 
-export const Chatbot: React.FC = () => {
+interface ChatbotProps {
+  isVoiceOpen: boolean;
+  onToggleVoice: (isOpen: boolean) => void;
+}
+
+export const Chatbot: React.FC<ChatbotProps> = ({ isVoiceOpen, onToggleVoice }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -16,7 +21,6 @@ export const Chatbot: React.FC = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isVoiceOpen, setIsVoiceOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -65,7 +69,7 @@ export const Chatbot: React.FC = () => {
   return (
     <>
       {/* Voice Agent Modal */}
-      <VoiceAgent isOpen={isVoiceOpen} onClose={() => setIsVoiceOpen(false)} />
+      <VoiceAgent isOpen={isVoiceOpen} onClose={() => onToggleVoice(false)} />
 
       {/* Chat Trigger Button */}
       {!isOpen && (
@@ -99,7 +103,7 @@ export const Chatbot: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <button 
-                onClick={() => setIsVoiceOpen(true)}
+                onClick={() => onToggleVoice(true)}
                 className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
                 title="Hablar con Agente de Voz"
               >
@@ -125,7 +129,6 @@ export const Chatbot: React.FC = () => {
                       : 'bg-white text-gray-800 border border-gray-100 rounded-bl-none'
                   }`}
                 >
-                  {/* Simple markdown parsing for bold text */}
                   <div dangerouslySetInnerHTML={{ __html: msg.text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br/>') }} />
                 </div>
               </div>

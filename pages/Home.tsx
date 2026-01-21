@@ -4,9 +4,10 @@ import { ArrowRight, ShieldCheck, Zap, Heart } from 'lucide-react';
 
 interface HomeProps {
   onNavigate: (page: Page) => void;
+  onOpenVoice: () => void;
 }
 
-export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
+export const Home: React.FC<HomeProps> = ({ onNavigate, onOpenVoice }) => {
   return (
     <div className="space-y-16 pb-16">
       {/* Hero Section */}
@@ -87,7 +88,7 @@ export const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             Nuestro Agente de Voz con IA puede ayudarte a encontrar el producto perfecto para tus necesidades en menos de 2 minutos.
           </p>
           <button 
-             onClick={() => document.querySelector<HTMLButtonElement>('button[title="Hablar con Agente de Voz"]')?.click()}
+             onClick={onOpenVoice}
              className="inline-flex items-center gap-3 bg-fuxion-primary px-8 py-4 rounded-full font-bold hover:bg-blue-600 transition-colors"
           >
             <span className="relative flex h-3 w-3">

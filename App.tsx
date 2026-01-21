@@ -9,20 +9,20 @@ import { Page } from './types';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>(Page.HOME);
+  const [isVoiceOpen, setIsVoiceOpen] = useState(false);
 
   const renderPage = () => {
     switch (currentPage) {
       case Page.HOME:
-        return <Home onNavigate={setCurrentPage} />;
+        return <Home onNavigate={setCurrentPage} onOpenVoice={() => setIsVoiceOpen(true)} />;
       case Page.PRODUCTS:
         return <Products onNavigate={setCurrentPage} />;
       case Page.BOOKING:
         return <Booking />;
       case Page.CONTACT:
-        // Reusing Booking for Contact for this demo, or scroll to footer
         return <Booking />;
       default:
-        return <Home onNavigate={setCurrentPage} />;
+        return <Home onNavigate={setCurrentPage} onOpenVoice={() => setIsVoiceOpen(true)} />;
     }
   };
 
@@ -35,7 +35,7 @@ function App() {
       </main>
 
       <Footer />
-      <Chatbot />
+      <Chatbot isVoiceOpen={isVoiceOpen} onToggleVoice={setIsVoiceOpen} />
     </div>
   );
 }
