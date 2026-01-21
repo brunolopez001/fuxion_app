@@ -1,0 +1,7 @@
+{
+  "name": "FuXion Biotech Portal",
+  "description": "Plataforma de bienestar y nutracéuticos con Agente de IA integrado para ventas y consultas.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
