@@ -1,36 +1,30 @@
 import { GoogleGenAI } from "@google/genai";
 import { AI_SYSTEM_INSTRUCTION } from "../constants";
 
-// Initialize Gemini Client
-// WARNING: In a real production app, ensure API keys are not exposed in client-side code unless using appropriate restrictions.
-const apiKey = process.env.API_KEY || ''; 
-const ai = new GoogleGenAI({ apiKey });
+// Inicializar el cliente de Gemini
+// La API Key se inyecta de forma segura a través de vite.config.ts usando process.env.API_KEY
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const sendMessageToGemini = async (
   history: { role: 'user' | 'model'; text: string }[],
   newMessage: string
 ): Promise<string> => {
   try {
-    if (!apiKey) {
-      return "Error: API Key de Google no configurada. Por favor contacte al administrador.";
-    }
-
-    // Prepare contents including history for context
+    // Preparar el contenido incluyendo el historial para el contexto
+    // El SDK espera un array de objetos con la estructura { role: string, parts: [{ text: string }] }
     const contents = history.map(msg => ({
       role: msg.role,
       parts: [{ text: msg.text }]
     }));
 
-    // Add new message
+    // Añadir el nuevo mensaje del usuario
     contents.push({
       role: 'user',
       parts: [{ text: newMessage }]
     });
 
-    const model = 'gemini-2.5-flash-lite-latest'; // Fast model for chat
-
     const response = await ai.models.generateContent({
-      model: model,
+      model: 'gemini-2.5-flash', 
       contents: contents,
       config: {
         systemInstruction: AI_SYSTEM_INSTRUCTION,
