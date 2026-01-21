@@ -1,7 +1,7 @@
 import React from 'react';
 import { PRODUCTS } from '../constants';
 import { ProductCard } from '../components/ProductCard';
-import { Product, Page } from '../types';
+import { Page } from '../types';
 
 interface ProductsProps {
   onNavigate: (page: Page) => void;
