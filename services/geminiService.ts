@@ -1,8 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { AI_SYSTEM_INSTRUCTION } from "../constants";
 
-// Inicializar el cliente de Gemini
-// La API Key se inyecta de forma segura a través de vite.config.ts usando process.env.API_KEY
+// Inicializar el cliente de Gemini con process.env.API_KEY (inyectado por Vite)
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const sendMessageToGemini = async (
@@ -11,7 +10,6 @@ export const sendMessageToGemini = async (
 ): Promise<string> => {
   try {
     // Preparar el contenido incluyendo el historial para el contexto
-    // El SDK espera un array de objetos con la estructura { role: string, parts: [{ text: string }] }
     const contents = history.map(msg => ({
       role: msg.role,
       parts: [{ text: msg.text }]
@@ -24,12 +22,11 @@ export const sendMessageToGemini = async (
     });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash', 
+      model: 'gemini-3-flash-preview', 
       contents: contents,
       config: {
         systemInstruction: AI_SYSTEM_INSTRUCTION,
         temperature: 0.7,
-        maxOutputTokens: 300,
       }
     });
 
